@@ -1,0 +1,160 @@
+;Programa que realice las operaciones de suma y resta 
+.model small
+.stack
+.data 
+
+n1 db 0
+n2 db 0
+r db 0 
+
+suma db 0
+resta db 0 
+multiplicacion db 0
+division db 0
+modulo db 0
+
+sol1 db 13, 10,'ingrese numero 1', 13,10, '$'
+sol2 db 13, 10,'ingrese numero 2',13,10,'$'
+
+Fsuma db 13,10, 'la suma es: $ '
+Fresta db 13, 10, 'la resta  es: $'
+Fmultiplicacion db 13,10, 'el producto es: $'
+Fdivision db 13,10, 'la division es: $' 
+
+msg db 'SUMA DE NUMEROS'
+
+lea dx,msg ;ontenemos la direccion de memoria de ms
+
+.code
+
+    mov ax,  @data
+    mov ds, ax 
+    
+    
+   
+    mov ah,09h
+    lea dx,sol1
+    int 21h
+    
+    mov ah,01h
+    int 21h
+    sub al,30h
+    mov n1,al 
+    
+    
+    mov ah,09h
+    lea dx,sol2
+    int 21h
+    
+    mov ah,01h
+    int 21h
+    sub al,30h
+    mov n2,al 
+    
+                   
+    ;SUMA
+    
+    mov al,n1
+    add al,n2
+    mov r, al
+    
+    mov ah,09h
+    lea dx,Fsuma
+    int 21h
+    
+    mov al,r
+    AAM
+    mov bx,ax
+    mov ah,02h
+    mov dl,bh
+    add dl,30h
+    int 21h
+    
+    mov ah,02h
+    mov dl,bl
+    add dl,30h
+    int 21h
+           
+    
+ 
+  
+    ;RESTA
+    
+    mov al,n1
+    sub al,n2
+    mov r, al
+    
+    mov ah,09h
+    lea dx,Fresta
+    int 21h
+    
+    mov al,r
+    AAM
+    mov bx,ax
+    mov ah,02h
+    mov dl,bh
+    add dl,30h
+    int 21h
+    
+    mov ah,02h
+    mov dl,bl
+    add dl,30h
+    int 21h
+    
+    
+    
+    ;multi
+    
+    mov al,n1
+    ;add bl,n2 
+    mul n2
+    mov r,al
+    
+    mov ah,09h  
+    lea dx,Fmultiplicacion
+    int 21h
+    
+    mov al,r
+    AAM
+    mov bx,ax
+    mov ah,02h
+    mov dl,bh
+    add dl,30h
+    int 21h
+    
+    mov ah,02h
+    mov dl,bl
+    add dl,30h
+    int 21h   
+    
+      
+      
+   ;DIVISION
+    
+    xor ax,ax
+    mov bl,n2
+    mov al,n1
+    div bl
+    mov r, al
+    
+   
+   mov ah,09h  
+    lea dx,Fdivision
+    int 21h
+    
+    mov al,r
+    AAM
+    mov bx,ax
+    mov ah,02h
+    mov dl,bh
+    add dl,30h
+    int 21h
+    
+    mov ah,02h
+    mov dl,bl
+    add dl,30h
+    int 21h   
+    
+    
+   .exit
+ret
